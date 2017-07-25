@@ -1,27 +1,9 @@
-
 package com.mapbox.reactnativemapboxgl;
 
-import android.content.Context;
-import android.os.Bundle;
 import android.os.Handler;
-import android.os.Parcel;
-import android.support.annotation.MainThread;
-import android.support.annotation.UiThread;
 import android.util.Log;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import com.facebook.common.logging.FLog;
 import com.facebook.react.bridge.Arguments;
-import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.JSApplicationIllegalArgumentException;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -29,25 +11,30 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
-import com.facebook.react.bridge.ReadableNativeMap;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
-import com.facebook.react.bridge.WritableNativeArray;
 import com.facebook.react.modules.core.RCTNativeAppEventEmitter;
-import com.facebook.react.uimanager.annotations.ReactProp;
 import com.mapbox.mapboxsdk.MapboxAccountManager;
-import com.mapbox.mapboxsdk.constants.MyLocationTracking;
 import com.mapbox.mapboxsdk.constants.MyBearingTracking;
+import com.mapbox.mapboxsdk.constants.MyLocationTracking;
 import com.mapbox.mapboxsdk.constants.Style;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.geometry.LatLngBounds;
 import com.mapbox.mapboxsdk.offline.OfflineManager;
 import com.mapbox.mapboxsdk.offline.OfflineRegion;
-import com.mapbox.mapboxsdk.offline.OfflineRegionDefinition;
 import com.mapbox.mapboxsdk.offline.OfflineRegionError;
 import com.mapbox.mapboxsdk.offline.OfflineRegionStatus;
 import com.mapbox.mapboxsdk.offline.OfflineTilePyramidRegionDefinition;
 import com.mapbox.mapboxsdk.telemetry.MapboxEventManager;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Nullable;
 
@@ -83,22 +70,23 @@ public class ReactNativeMapboxGLModule extends ReactContextBaseJavaModule {
         return result;
     }
 
-    public static final int[] locationTrackingModes = new int[] {
-            MyLocationTracking.TRACKING_NONE,
-            MyLocationTracking.TRACKING_FOLLOW,
-            MyLocationTracking.TRACKING_FOLLOW,
-            MyLocationTracking.TRACKING_FOLLOW
+    public static final int[] locationTrackingModes = new int[]{
+        MyLocationTracking.TRACKING_NONE,
+        MyLocationTracking.TRACKING_FOLLOW,
+        MyLocationTracking.TRACKING_FOLLOW,
+        MyLocationTracking.TRACKING_FOLLOW
     };
 
-    public static final int[] bearingTrackingModes = new int[] {
-            MyBearingTracking.NONE,
-            MyBearingTracking.NONE,
-            MyBearingTracking.GPS,
-            MyBearingTracking.COMPASS
+    public static final int[] bearingTrackingModes = new int[]{
+        MyBearingTracking.NONE,
+        MyBearingTracking.NONE,
+        MyBearingTracking.GPS,
+        MyBearingTracking.COMPASS
     };
 
     @Override
-    public @Nullable Map<String, Object> getConstants() {
+    public @Nullable
+    Map<String, Object> getConstants() {
         HashMap<String, Object> constants = new HashMap<String, Object>();
 
         HashMap<String, Object> userTrackingMode = new HashMap<String, Object>();
@@ -190,12 +178,14 @@ public class ReactNativeMapboxGLModule extends ReactContextBaseJavaModule {
         }
 
         void fireUpdateEvent() {
-            if (invalid) { return; }
+            if (invalid) {
+                return;
+            }
 
             recentlyUpdated = true;
             WritableMap event = serializeOfflineRegionStatus(region, this.status);
             module.getReactApplicationContext().getJSModule(RCTNativeAppEventEmitter.class)
-                    .emit("MapboxOfflineProgressDidChange", event);
+                .emit("MapboxOfflineProgressDidChange", event);
 
             module.mainHandler.postDelayed(new Runnable() {
                 @Override
@@ -211,7 +201,9 @@ public class ReactNativeMapboxGLModule extends ReactContextBaseJavaModule {
 
         @Override
         public void onStatusChanged(OfflineRegionStatus status) {
-            if (invalid) { return; }
+            if (invalid) {
+                return;
+            }
 
             this.status = status;
 
@@ -224,26 +216,30 @@ public class ReactNativeMapboxGLModule extends ReactContextBaseJavaModule {
 
         @Override
         public void onError(OfflineRegionError error) {
-            if (invalid) { return; }
+            if (invalid) {
+                return;
+            }
 
             WritableMap event = Arguments.createMap();
             event.putString("name", getOfflineRegionName(region));
             event.putString("error", error.toString());
 
             module.getReactApplicationContext().getJSModule(RCTNativeAppEventEmitter.class)
-                    .emit("MapboxOfflineError", event);
+                .emit("MapboxOfflineError", event);
         }
 
         @Override
         public void mapboxTileCountLimitExceeded(long limit) {
-            if (invalid) { return; }
+            if (invalid) {
+                return;
+            }
 
             WritableMap event = Arguments.createMap();
             event.putString("name", getOfflineRegionName(region));
             event.putDouble("maxTiles", limit);
 
             module.getReactApplicationContext().getJSModule(RCTNativeAppEventEmitter.class)
-                    .emit("MapboxOfflineMaxAllowedTiles", event);
+                .emit("MapboxOfflineMaxAllowedTiles", event);
         }
 
         public void invalidate() {
@@ -287,6 +283,7 @@ public class ReactNativeMapboxGLModule extends ReactContextBaseJavaModule {
                             flushListingRequests();
                         }
                     }
+
                     @Override
                     public void onError(String error) {
                         Log.e(context.getApplicationContext().getPackageName(), error);
@@ -307,7 +304,7 @@ public class ReactNativeMapboxGLModule extends ReactContextBaseJavaModule {
             @Override
             public void run() {
                 OfflineManager.getInstance(context.getApplicationContext()).listOfflineRegions(
-                        new OfflineRegionsInitialRequest(_this)
+                    new OfflineRegionsInitialRequest(_this)
                 );
             }
         });
@@ -323,18 +320,18 @@ public class ReactNativeMapboxGLModule extends ReactContextBaseJavaModule {
             ByteArrayInputStream bis = new ByteArrayInputStream(region.getMetadata());
             ObjectInputStream ois = new ObjectInputStream(bis);
 
-            result.putString("name", (String)ois.readObject());
-            result.putString("metadata", (String)ois.readObject());
+            result.putString("name", (String) ois.readObject());
+            result.putString("metadata", (String) ois.readObject());
 
             ois.close();
         } catch (Throwable e) {
             e.printStackTrace();
         }
 
-        result.putInt("countOfBytesCompleted", (int)status.getCompletedResourceSize());
-        result.putInt("countOfResourcesCompleted", (int)status.getCompletedResourceCount());
-        result.putInt("countOfResourcesExpected", (int)status.getRequiredResourceCount());
-        result.putInt("maximumResourcesExpected", (int)status.getRequiredResourceCount());
+        result.putInt("countOfBytesCompleted", (int) status.getCompletedResourceSize());
+        result.putInt("countOfResourcesCompleted", (int) status.getCompletedResourceCount());
+        result.putInt("countOfResourcesExpected", (int) status.getRequiredResourceCount());
+        result.putInt("maximumResourcesExpected", (int) status.getRequiredResourceCount());
 
         return result;
     }
@@ -343,7 +340,7 @@ public class ReactNativeMapboxGLModule extends ReactContextBaseJavaModule {
         try {
             ByteArrayInputStream bis = new ByteArrayInputStream(region.getMetadata());
             ObjectInputStream ois = new ObjectInputStream(bis);
-            String name = (String)ois.readObject();
+            String name = (String) ois.readObject();
             ois.close();
             return name;
         } catch (Throwable e) {
@@ -402,8 +399,8 @@ public class ReactNativeMapboxGLModule extends ReactContextBaseJavaModule {
         }
         if (!options.getString("type").equals("bbox")) {
             promise.reject(new JSApplicationIllegalArgumentException("addOfflinePack(): Offline pack type " +
-                    options.getString("type") +
-                    " not supported. Only \"bbox\" is currently supported."));
+                options.getString("type") +
+                " not supported. Only \"bbox\" is currently supported."));
             return;
         }
 
@@ -412,19 +409,19 @@ public class ReactNativeMapboxGLModule extends ReactContextBaseJavaModule {
 
         ReadableArray boundsArray = options.getArray("bounds");
         LatLngBounds bounds = new LatLngBounds.Builder()
-                .include(new LatLng(boundsArray.getDouble(0), boundsArray.getDouble(1)))
-                .include(new LatLng(boundsArray.getDouble(2), boundsArray.getDouble(3)))
-                .build();
+            .include(new LatLng(boundsArray.getDouble(0), boundsArray.getDouble(1)))
+            .include(new LatLng(boundsArray.getDouble(2), boundsArray.getDouble(3)))
+            .build();
 
         final OfflineTilePyramidRegionDefinition regionDef = new OfflineTilePyramidRegionDefinition(
-                options.getString("styleURL"),
-                bounds,
-                options.getDouble("minZoomLevel"),
-                options.getDouble("maxZoomLevel"),
-                pixelRatio
+            options.getString("styleURL"),
+            bounds,
+            options.getDouble("minZoomLevel"),
+            options.getDouble("maxZoomLevel"),
+            pixelRatio
         );
 
-        byte [] metadata;
+        byte[] metadata;
 
         try {
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -439,28 +436,28 @@ public class ReactNativeMapboxGLModule extends ReactContextBaseJavaModule {
         }
 
         final ReactNativeMapboxGLModule _this = this;
-        final byte [] _metadata = metadata;
+        final byte[] _metadata = metadata;
         mainHandler.post(new Runnable() {
             @Override
             public void run() {
                 OfflineManager.getInstance(context.getApplicationContext()).createOfflineRegion(
-                        regionDef,
-                        _metadata,
-                        new OfflineManager.CreateOfflineRegionCallback() {
-                            @Override
-                            public void onCreate(OfflineRegion offlineRegion) {
-                                OfflineRegionProgressObserver observer = new OfflineRegionProgressObserver(_this, offlineRegion, null);
-                                offlinePackObservers.add(observer);
-                                offlineRegion.setObserver(observer);
-                                offlineRegion.setDownloadState(OfflineRegion.STATE_ACTIVE);
-                                promise.resolve(null);
-                            }
-
-                            @Override
-                            public void onError(String error) {
-                                promise.reject(new JSApplicationIllegalArgumentException(error));
-                            }
+                    regionDef,
+                    _metadata,
+                    new OfflineManager.CreateOfflineRegionCallback() {
+                        @Override
+                        public void onCreate(OfflineRegion offlineRegion) {
+                            OfflineRegionProgressObserver observer = new OfflineRegionProgressObserver(_this, offlineRegion, null);
+                            offlinePackObservers.add(observer);
+                            offlineRegion.setObserver(observer);
+                            offlineRegion.setDownloadState(OfflineRegion.STATE_ACTIVE);
+                            promise.resolve(null);
                         }
+
+                        @Override
+                        public void onError(String error) {
+                            promise.reject(new JSApplicationIllegalArgumentException(error));
+                        }
+                    }
                 );
             }
         });

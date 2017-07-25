@@ -2,9 +2,8 @@ package com.mapbox.reactnativemapboxgl;
 
 
 /**
- * Prefix all the internal event names with mapbox so that they don't clobber or get clobbered
- * by events with the same name in other libraries. None of this will be visible to the user.
- * The callback names will remain normal.
+ * Prefix all the internal event names with mapbox so that they don't clobber or get clobbered by events with the same name in other libraries. None
+ * of this will be visible to the user. The callback names will remain normal.
  */
 public class ReactNativeMapboxGLEventTypes {
     public static String ON_REGION_DID_CHANGE = "mapbox.onRegionDidChange";
@@ -19,5 +18,6 @@ public class ReactNativeMapboxGLEventTypes {
     public static String ON_START_LOADING_MAP = "mapbox.onStartLoadingMap";
     public static String ON_LOCATE_USER_FAILED = "mapbox.onLocateUserFailed";
 
-    private ReactNativeMapboxGLEventTypes() {}
+    private ReactNativeMapboxGLEventTypes() {
+    }
 }

@@ -8,8 +8,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 
-import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableArray;
+import com.facebook.react.bridge.ReadableMap;
 import com.mapbox.mapboxsdk.annotations.Annotation;
 import com.mapbox.mapboxsdk.annotations.Icon;
 import com.mapbox.mapboxsdk.annotations.IconFactory;
@@ -103,7 +103,9 @@ public class RNMGLAnnotationOptionsFactory {
         String path = source.getString("uri");
         String cacheKey = path + "||" + width + "||" + height;
         Icon icon = iconCache.get(cacheKey);
-        if (icon != null) { return icon; }
+        if (icon != null) {
+            return icon;
+        }
 
         Drawable drawable;
         try {
@@ -117,12 +119,16 @@ public class RNMGLAnnotationOptionsFactory {
         int intrinsicWidth = drawable.getIntrinsicWidth();
         int intrinsicHeight = drawable.getIntrinsicHeight();
 
-        if (width < 0) { width = intrinsicWidth; }
-        if (height < 0) { height = intrinsicHeight; }
+        if (width < 0) {
+            width = intrinsicWidth;
+        }
+        if (height < 0) {
+            height = intrinsicHeight;
+        }
 
         // Check if a rescale would be superfluous
         if ((drawable instanceof BitmapDrawable) && width == intrinsicWidth && height == intrinsicHeight) {
-            icon = iconFactory.fromBitmap(((BitmapDrawable)drawable).getBitmap());
+            icon = iconFactory.fromBitmap(((BitmapDrawable) drawable).getBitmap());
         } else {
             icon = iconFactory.fromDrawable(drawable, width, height);
         }
@@ -158,8 +164,8 @@ public class RNMGLAnnotationOptionsFactory {
 
                 if (annotationImage.hasKey("height") && annotationImage.hasKey("width")) {
                     float scale = context.getResources().getDisplayMetrics().density;
-                    height = Math.round((float)annotationImage.getInt("height") * scale);
-                    width = Math.round((float)annotationImage.getInt("width") * scale);
+                    height = Math.round((float) annotationImage.getInt("height") * scale);
+                    width = Math.round((float) annotationImage.getInt("width") * scale);
                 }
 
                 marker.icon(iconFromSourceAndSize(context, annotationSource, width, height));

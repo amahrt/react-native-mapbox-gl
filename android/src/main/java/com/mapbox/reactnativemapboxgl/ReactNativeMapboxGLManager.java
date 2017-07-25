@@ -1,4 +1,3 @@
-
 package com.mapbox.reactnativemapboxgl;
 
 import android.view.View;
@@ -13,9 +12,9 @@ import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.common.MapBuilder;
 import com.facebook.react.modules.core.RCTNativeAppEventEmitter;
+import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.ViewGroupManager;
 import com.facebook.react.uimanager.annotations.ReactProp;
-import com.facebook.react.uimanager.ThemedReactContext;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.camera.CameraUpdate;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
@@ -68,20 +67,21 @@ public class ReactNativeMapboxGLManager extends ViewGroupManager<ReactNativeMapb
 
     // Event types
     @Override
-    public @Nullable Map<String, Object> getExportedCustomDirectEventTypeConstants() {
-        return MapBuilder.<String,Object>builder()
-                .put(ReactNativeMapboxGLEventTypes.ON_REGION_DID_CHANGE, MapBuilder.of("registrationName", "onRegionDidChange"))
-                .put(ReactNativeMapboxGLEventTypes.ON_REGION_WILL_CHANGE, MapBuilder.of("registrationName", "onRegionWillChange"))
-                .put(ReactNativeMapboxGLEventTypes.ON_OPEN_ANNOTATION, MapBuilder.of("registrationName", "onOpenAnnotation"))
-                .put(ReactNativeMapboxGLEventTypes.ON_RIGHT_ANNOTATION_TAPPED, MapBuilder.of("registrationName", "onRightAnnotationTapped"))
-                .put(ReactNativeMapboxGLEventTypes.ON_CHANGE_USER_TRACKING_MODE, MapBuilder.of("registrationName", "onChangeUserTrackingMode"))
-                .put(ReactNativeMapboxGLEventTypes.ON_UPDATE_USER_LOCATION, MapBuilder.of("registrationName", "onUpdateUserLocation"))
-                .put(ReactNativeMapboxGLEventTypes.ON_LONG_PRESS, MapBuilder.of("registrationName", "onLongPress"))
-                .put(ReactNativeMapboxGLEventTypes.ON_TAP, MapBuilder.of("registrationName", "onTap"))
-                .put(ReactNativeMapboxGLEventTypes.ON_FINISH_LOADING_MAP, MapBuilder.of("registrationName", "onFinishLoadingMap"))
-                .put(ReactNativeMapboxGLEventTypes.ON_START_LOADING_MAP, MapBuilder.of("registrationName", "onStartLoadingMap"))
-                .put(ReactNativeMapboxGLEventTypes.ON_LOCATE_USER_FAILED, MapBuilder.of("registrationName", "onLocateUserFailed"))
-                .build();
+    public @Nullable
+    Map<String, Object> getExportedCustomDirectEventTypeConstants() {
+        return MapBuilder.<String, Object>builder()
+            .put(ReactNativeMapboxGLEventTypes.ON_REGION_DID_CHANGE, MapBuilder.of("registrationName", "onRegionDidChange"))
+            .put(ReactNativeMapboxGLEventTypes.ON_REGION_WILL_CHANGE, MapBuilder.of("registrationName", "onRegionWillChange"))
+            .put(ReactNativeMapboxGLEventTypes.ON_OPEN_ANNOTATION, MapBuilder.of("registrationName", "onOpenAnnotation"))
+            .put(ReactNativeMapboxGLEventTypes.ON_RIGHT_ANNOTATION_TAPPED, MapBuilder.of("registrationName", "onRightAnnotationTapped"))
+            .put(ReactNativeMapboxGLEventTypes.ON_CHANGE_USER_TRACKING_MODE, MapBuilder.of("registrationName", "onChangeUserTrackingMode"))
+            .put(ReactNativeMapboxGLEventTypes.ON_UPDATE_USER_LOCATION, MapBuilder.of("registrationName", "onUpdateUserLocation"))
+            .put(ReactNativeMapboxGLEventTypes.ON_LONG_PRESS, MapBuilder.of("registrationName", "onLongPress"))
+            .put(ReactNativeMapboxGLEventTypes.ON_TAP, MapBuilder.of("registrationName", "onTap"))
+            .put(ReactNativeMapboxGLEventTypes.ON_FINISH_LOADING_MAP, MapBuilder.of("registrationName", "onFinishLoadingMap"))
+            .put(ReactNativeMapboxGLEventTypes.ON_START_LOADING_MAP, MapBuilder.of("registrationName", "onStartLoadingMap"))
+            .put(ReactNativeMapboxGLEventTypes.ON_LOCATE_USER_FAILED, MapBuilder.of("registrationName", "onLocateUserFailed"))
+            .build();
     }
 
     // Children
@@ -218,16 +218,16 @@ public class ReactNativeMapboxGLManager extends ViewGroupManager<ReactNativeMapb
     @Nullable
     Map<String, Integer> getCommandsMap() {
         return MapBuilder.<String, Integer>builder()
-                .put("getDirection", COMMAND_GET_DIRECTION)
-                .put("getPitch", COMMAND_GET_PITCH)
-                .put("getCenterCoordinateZoomLevel", COMMAND_GET_CENTER_COORDINATE_ZOOM_LEVEL)
-                .put("getBounds", COMMAND_GET_BOUNDS)
-                .put("easeTo", COMMAND_EASE_TO)
-                .put("setVisibleCoordinateBounds", COMMAND_SET_VISIBLE_COORDINATE_BOUNDS)
-                .put("selectAnnotation", COMMAND_SELECT_ANNOTATION)
-                .put("spliceAnnotations", COMMAND_SPLICE_ANNOTATIONS)
-                .put("deselectAnnotation", COMMAND_DESELECT_ANNOTATION)
-                .build();
+            .put("getDirection", COMMAND_GET_DIRECTION)
+            .put("getPitch", COMMAND_GET_PITCH)
+            .put("getCenterCoordinateZoomLevel", COMMAND_GET_CENTER_COORDINATE_ZOOM_LEVEL)
+            .put("getBounds", COMMAND_GET_BOUNDS)
+            .put("easeTo", COMMAND_EASE_TO)
+            .put("setVisibleCoordinateBounds", COMMAND_SET_VISIBLE_COORDINATE_BOUNDS)
+            .put("selectAnnotation", COMMAND_SELECT_ANNOTATION)
+            .put("spliceAnnotations", COMMAND_SPLICE_ANNOTATIONS)
+            .put("deselectAnnotation", COMMAND_DESELECT_ANNOTATION)
+            .build();
     }
 
     private void fireCallback(int callbackId, WritableArray args) {
@@ -236,7 +236,7 @@ public class ReactNativeMapboxGLManager extends ViewGroupManager<ReactNativeMapb
         event.pushArray(args);
 
         _context.getJSModule(RCTNativeAppEventEmitter.class)
-                .emit("MapboxAndroidCallback", event);
+            .emit("MapboxAndroidCallback", event);
     }
 
     @Override
@@ -260,9 +260,9 @@ public class ReactNativeMapboxGLManager extends ViewGroupManager<ReactNativeMapb
                 break;
             case COMMAND_SET_VISIBLE_COORDINATE_BOUNDS:
                 setVisibleCoordinateBounds(view,
-                        args.getDouble(0), args.getDouble(1), args.getDouble(2), args.getDouble(3),
-                        args.getDouble(4), args.getDouble(5), args.getDouble(6), args.getDouble(7),
-                        args.getBoolean(8)
+                    args.getDouble(0), args.getDouble(1), args.getDouble(2), args.getDouble(3),
+                    args.getDouble(4), args.getDouble(5), args.getDouble(6), args.getDouble(7),
+                    args.getBoolean(8)
                 );
                 break;
             case COMMAND_SELECT_ANNOTATION:
@@ -360,27 +360,27 @@ public class ReactNativeMapboxGLManager extends ViewGroupManager<ReactNativeMapb
     }
 
     public void setCamera(
-            ReactNativeMapboxGLView view,
-            double latitude, double longitude,
-            double altitude, double pitch, double direction,
-            double duration) {
+        ReactNativeMapboxGLView view,
+        double latitude, double longitude,
+        double altitude, double pitch, double direction,
+        double duration) {
         throw new JSApplicationIllegalArgumentException("MapView.setCamera() is not supported on Android. If you're trying to change pitch, use MapView.easeTo()");
     }
 
     public void setVisibleCoordinateBounds(
-            ReactNativeMapboxGLView view,
-            double latS, double lonW, double latN, double lonE,
-            double paddingTop, double paddingRight, double paddingBottom, double paddingLeft,
-            boolean animated) {
+        ReactNativeMapboxGLView view,
+        double latS, double lonW, double latN, double lonE,
+        double paddingTop, double paddingRight, double paddingBottom, double paddingLeft,
+        boolean animated) {
         CameraUpdate update = CameraUpdateFactory.newLatLngBounds(
-                new LatLngBounds.Builder()
-                        .include(new LatLng(latS, lonW))
-                        .include(new LatLng(latN, lonE))
-                        .build(),
-                (int) paddingLeft,
-                (int) paddingTop,
-                (int) paddingRight,
-                (int) paddingBottom
+            new LatLngBounds.Builder()
+                .include(new LatLng(latS, lonW))
+                .include(new LatLng(latN, lonE))
+                .build(),
+            (int) paddingLeft,
+            (int) paddingTop,
+            (int) paddingRight,
+            (int) paddingBottom
         );
         view.setCameraUpdate(update, animated ? MapboxConstants.ANIMATION_DURATION : 0, null);
     }

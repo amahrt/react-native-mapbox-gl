@@ -12,7 +12,8 @@ import com.mapbox.mapboxsdk.geometry.LatLng;
 public class RNMGLCustomMarkerViewOptions extends BaseMarkerViewOptions<RNMGLCustomMarkerView, RNMGLCustomMarkerViewOptions> {
     private String annotationId;
 
-    public RNMGLCustomMarkerViewOptions() {}
+    public RNMGLCustomMarkerViewOptions() {
+    }
 
     protected RNMGLCustomMarkerViewOptions(Parcel in) {
         position((LatLng) in.readParcelable(LatLng.class.getClassLoader()));
@@ -77,7 +78,7 @@ public class RNMGLCustomMarkerViewOptions extends BaseMarkerViewOptions<RNMGLCus
     }
 
     public static final Parcelable.Creator<RNMGLCustomMarkerViewOptions> CREATOR
-            = new Parcelable.Creator<RNMGLCustomMarkerViewOptions>() {
+        = new Parcelable.Creator<RNMGLCustomMarkerViewOptions>() {
         public RNMGLCustomMarkerViewOptions createFromParcel(Parcel in) {
             return new RNMGLCustomMarkerViewOptions(in);
         }
