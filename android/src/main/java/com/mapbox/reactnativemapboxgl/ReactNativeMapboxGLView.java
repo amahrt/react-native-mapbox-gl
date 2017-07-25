@@ -80,7 +80,7 @@ public class ReactNativeMapboxGLView extends RelativeLayout implements
     private boolean _changeWasAnimated = false;
 
     private Set<RNMGLAnnotationView> _annotationViews = new HashSet<>();
-    private List<View> _childViews = new ArrayList<View>();
+    private List<View> _childViews = new ArrayList<>();
     private Map<String, Annotation> _annotations = new HashMap<>();
     private Map<Long, String> _annotationIdsToName = new HashMap<>();
     private Map<String, RNMGLAnnotationOptions> _annotationOptions = new HashMap<>();
@@ -769,7 +769,7 @@ public class ReactNativeMapboxGLView extends RelativeLayout implements
     public boolean onMarkerClick(@NonNull Marker marker) {
         emitEvent(ReactNativeMapboxGLEventTypes.ON_OPEN_ANNOTATION, serializeMarker(marker));
 
-        if (_annotationsPopUpEnabled == false) {
+        if (!_annotationsPopUpEnabled) {
             return true;
         }
 
@@ -881,7 +881,7 @@ public class ReactNativeMapboxGLView extends RelativeLayout implements
         _annotations.clear();
         _annotationIdsToName.clear();
         if (_map != null) {
-            _map.removeAnnotations();
+            _map.clear();
         }
     }
 
