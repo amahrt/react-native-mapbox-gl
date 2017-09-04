@@ -125,6 +125,19 @@ public class ReactNativeMapboxGLManager extends ViewGroupManager<ReactNativeMapb
         view.setInitialCenterCoordinate(lat, lon);
     }
 
+    @ReactProp(name = "initialBounds")
+    public void setInitialBounds(ReactNativeMapboxGLView view, ReadableMap bounds) {
+        double latitudeSW = bounds.getDouble("latitudeSW");
+        double longitudeSW = bounds.getDouble("longitudeSW");
+        double latitudeNE = bounds.getDouble("latitudeNE");
+        double longitudeNE = bounds.getDouble("longitudeNE");
+        double paddingTop = bounds.getDouble("paddingTop");
+        double paddingRight = bounds.getDouble("paddingRight");
+        double paddingBottom = bounds.getDouble("paddingBottom");
+        double paddingLeft = bounds.getDouble("paddingLeft");
+        setVisibleCoordinateBounds(view, latitudeSW, longitudeSW, latitudeNE, longitudeNE, paddingTop, paddingRight, paddingBottom, paddingLeft, false);
+    }
+
     @ReactProp(name = "enableOnRegionDidChange")
     public void setEnableOnRegionDidChange(ReactNativeMapboxGLView view, boolean value) {
         view.setEnableOnRegionDidChange(value);

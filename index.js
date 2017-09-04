@@ -320,6 +320,16 @@ class MapView extends Component {
       latitude: PropTypes.number.isRequired,
       longitude: PropTypes.number.isRequired
     }),
+    initialBounds: PropTypes.shape({
+      latitudeSW: PropTypes.number,
+      longitudeSW: PropTypes.number,
+      latitudeNE: PropTypes.number,
+      longitudeNE: PropTypes.number,
+      paddingTop: PropTypes.number,
+      paddingRight: PropTypes.number,
+      paddingBottom: PropTypes.number,
+      paddingLeft: PropTypes.number
+    }),
     clipsToBounds: PropTypes.bool,
     debugActive: PropTypes.bool,
     rotateEnabled: PropTypes.bool,
